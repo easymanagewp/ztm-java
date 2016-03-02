@@ -58,6 +58,12 @@ public interface BaseDao<E extends BaseEntity> {
 	void update(E e);
 
 	/**
+	 * 假删除实体
+	 * @param e
+	 */
+	void update2Del(Serializable... ids);
+	
+	/**
 	 * 保存实体
 	 * @param e
 	 */

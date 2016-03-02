@@ -214,7 +214,7 @@ public class BaseDaoImpl<E extends BaseEntity> implements BaseDao<E> {
 		StringBuffer sbf = new StringBuffer();
 		sbf.append("FROM ")
 			.append(getEntityName())
-			.append(" WHERE 1=1");
+			.append(" WHERE isDel=false");
 		return sbf.toString();
 	}
 
@@ -241,6 +241,15 @@ public class BaseDaoImpl<E extends BaseEntity> implements BaseDao<E> {
 	public void delete(Serializable... ids){
 		for(Serializable id : ids){
 			this.getEntityManager().remove(this.findById(id));
+		}
+	}
+
+	@Override
+	public void update2Del(Serializable... ids) {
+		for(Serializable id : ids){
+			E entity = this.findById(id);
+			entity.setDel(true);
+			this.update(entity);
 		}
 	}
 	

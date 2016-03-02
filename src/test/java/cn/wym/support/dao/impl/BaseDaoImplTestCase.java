@@ -69,7 +69,7 @@ public class BaseDaoImplTestCase {
 
 		EntityManager entityManager = EasyMock.createMock(EntityManager.class);
 		EasyMock.expect(
-				entityManager.createQuery("FROM " + baseDao.getEntityName() + " WHERE 1=1", baseDao.getEntityClazz()))
+				entityManager.createQuery("FROM " + baseDao.getEntityName() + " WHERE isDel=false", baseDao.getEntityClazz()))
 				.andReturn(query).times(3);
 		EasyMock.replay(entityManager);
 
@@ -91,7 +91,7 @@ public class BaseDaoImplTestCase {
 
 		EntityManager entityManager = EasyMock.createMock(EntityManager.class);
 		EasyMock.expect(entityManager.createQuery(
-				"FROM " + baseDao.getEntityName() + " WHERE 1=1 AND name=11 AND age=12", baseDao.getEntityClazz()))
+				"FROM " + baseDao.getEntityName() + " WHERE isDel=false AND name=11 AND age=12", baseDao.getEntityClazz()))
 				.andReturn(query).times(3);
 		EasyMock.replay(entityManager);
 
@@ -124,10 +124,10 @@ public class BaseDaoImplTestCase {
 		
 		EntityManager entityManager = EasyMock.createMock(EntityManager.class);
 		EasyMock.expect(entityManager
-				.createQuery("FROM " + baseDao.getEntityName() + " WHERE 1=1 AND name=11 AND age=12", baseDao.getEntityClazz()))
+				.createQuery("FROM " + baseDao.getEntityName() + " WHERE isDel=false AND name=11 AND age=12", baseDao.getEntityClazz()))
 				.andReturn(query);
 		EasyMock.expect(entityManager
-				.createQuery("SELECT COUNT(id) FROM "+baseDao.getEntityName()+" WHERE 1=1 AND name=11 AND age=12"))
+				.createQuery("SELECT COUNT(id) FROM "+baseDao.getEntityName()+" WHERE isDel=false AND name=11 AND age=12"))
 				.andReturn(pagerQuery);
 		EasyMock.replay(entityManager);
 
