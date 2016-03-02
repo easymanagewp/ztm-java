@@ -64,7 +64,7 @@ public class AuthorityInterceptor extends HandlerInterceptorAdapter{
 		}
 		
 		/*======================  ClientName必须合法 ============== */
-		if(StringUtils.equalsIgnoreCase(clientKey, storeClientKey)){
+		if(!StringUtils.equalsIgnoreCase(clientKey, storeClientKey)){
 			throw new AuthorityException(3, "非法的"+CLIENT_KEY_NAME);
 		}
 		
