@@ -20,16 +20,12 @@ import cn.wym.support.container.QueryContainer;
 import cn.wym.support.dao.BaseDao;
 import cn.wym.support.entity.BaseEntity;
 
-public class BaseDaoImpl<E extends BaseEntity> implements BaseDao<E>{
+public class BaseDaoImpl<E extends BaseEntity> implements BaseDao<E> {
 
 	private EntityManager entityManager;
 	private Class<E> entityClazz;
 	protected String entityName;
 	
-	/**
-	 * 获取实体管理器
-	 * @return
-	 */
 	public EntityManager getEntityManager() {
 		return entityManager;
 	}
@@ -42,12 +38,14 @@ public class BaseDaoImpl<E extends BaseEntity> implements BaseDao<E>{
 	public void setEntityManager(EntityManager entityManager) {
 		this.entityManager = entityManager;
 	}
+
 	public Class<E> getEntityClazz() {
 		return entityClazz;
 	}
 	public void setEntityClazz(Class<E> entityClazz) {
 		this.entityClazz = entityClazz;
 	}
+
 	public String getEntityName() {
 		return entityName;
 	}
@@ -71,11 +69,10 @@ public class BaseDaoImpl<E extends BaseEntity> implements BaseDao<E>{
 		}
 	}
 	
-	/**
-	 * 获取实体名称
-	 * @param 实体类
-	 * @return 实体名称
+	/* (non-Javadoc)
+	 * @see cn.wym.support.dao.impl.BaseDao#getEntityName(java.lang.Class)
 	 */
+	@Override
 	public String getEntityName(Class<?> entityCls){
 		String entityName = entityCls.getSimpleName();
 		Entity entityAnno = entityCls.getAnnotation(Entity.class);
@@ -88,35 +85,46 @@ public class BaseDaoImpl<E extends BaseEntity> implements BaseDao<E>{
 		return entityName;
 	}
 	
-	/**
-	 * 根据ID查询实体
-	 * @param id
-	 * @return
+	/* (non-Javadoc)
+	 * @see cn.wym.support.dao.impl.BaseDao#findById(java.io.Serializable)
 	 */
+	@Override
 	public E findById(Serializable id) {
 		return this.getEntityManager().find(entityClazz, id);
 	}
 	
-	/**
-	 * 查询全部
-	 * @return 
+	/* (non-Javadoc)
+	 * @see cn.wym.support.dao.impl.BaseDao#findAll()
 	 */
+	@Override
 	@SuppressWarnings("unchecked")
 	public List<E> findAll(){
-		Query query = this.getEntityManager().createQuery("", this.getEntityClazz());
+		Query query = this.getEntityManager().createQuery(this.createBaseJPQL(), this.getEntityClazz());
 		return query.getResultList();
 	}
 	
+	/* (non-Javadoc)
+	 * @see cn.wym.support.dao.impl.BaseDao#findByQueryContainer(cn.wym.support.container.QueryContainer)
+	 */
+	@Override
 	@SuppressWarnings("unchecked")
 	public List<E> findByQueryContainer(QueryContainer qc){
 		Query query = createQueryByQueryContainer(qc);
 		return query.getResultList();
 	}
 	
+	/* (non-Javadoc)
+	 * @see cn.wym.support.dao.impl.BaseDao#findByJPQL(java.lang.String)
+	 */
+	@Override
 	public List<E> findByJPQL(String jpql){
 		return this.createQueryByJPQL(jpql).getResultList();
 	}
 	
+	/* (non-Javadoc)
+	 * @see cn.wym.support.dao.impl.BaseDao#findPager(cn.wym.support.container.QueryContainer)
+	 */
+	@Override
 	@SuppressWarnings("unchecked")
 	public PagerResultContainer findPager(QueryContainer qc){
 		Query query = createQueryByQueryContainer(qc);
@@ -140,8 +148,8 @@ public class BaseDaoImpl<E extends BaseEntity> implements BaseDao<E>{
 	private PagerResultContainer getPageInfo(QueryContainer qc) {
 		PagerResultContainer pagerResult = new PagerResultContainer();
 		String jpql = createJPQLByQueryContainer(qc);
-		jpql = "SELECT COUNT(id)" + jpql;
-		Query query = this.createQueryByJPQL(jpql);
+		jpql = "SELECT COUNT(id) " + jpql;
+		Query query = this.getEntityManager().createQuery(jpql);
 		Long totalRows = (Long) query.getSingleResult();
 		pagerResult.setTotalRows(totalRows);
 		
@@ -210,26 +218,26 @@ public class BaseDaoImpl<E extends BaseEntity> implements BaseDao<E>{
 		return sbf.toString();
 	}
 
-	/**
-	 * 更新实体
-	 * @param e
+	/* (non-Javadoc)
+	 * @see cn.wym.support.dao.impl.BaseDao#update(E)
 	 */
+	@Override
 	public void update(E e){
 		this.getEntityManager().merge(e);
 	}
 	
-	/**
-	 * 保存实体
-	 * @param e
+	/* (non-Javadoc)
+	 * @see cn.wym.support.dao.impl.BaseDao#save(E)
 	 */
+	@Override
 	public void save(E e){
 		this.getEntityManager().persist(e);
 	}
 	
-	/**
-	 * 删除实体
-	 * @param ids
+	/* (non-Javadoc)
+	 * @see cn.wym.support.dao.impl.BaseDao#delete(java.io.Serializable)
 	 */
+	@Override
 	public void delete(Serializable... ids){
 		for(Serializable id : ids){
 			this.getEntityManager().remove(this.findById(id));
