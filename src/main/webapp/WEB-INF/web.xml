@@ -16,7 +16,7 @@
 	</listener>
 	
 	<listener>
-		<listener-class>cn.core.framework.listener.SpringListener</listener-class>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
 	
 
