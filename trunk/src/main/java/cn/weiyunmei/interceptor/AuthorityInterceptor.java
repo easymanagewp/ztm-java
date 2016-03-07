@@ -1,4 +1,4 @@
-package cn.wym.interceptor;
+package cn.weiyunmei.interceptor;
 
 import java.io.IOException;
 import java.util.Properties;
@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import cn.wym.interceptor.exception.AuthorityException;
+import cn.weiyunmei.interceptor.exception.AuthorityException;
 
 /**
  * 对所有的接口进行验证，验证请求方的权限key是否可用

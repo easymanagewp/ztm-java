@@ -11,9 +11,10 @@ import org.easymock.EasyMock;
 import org.junit.Assert;
 import org.junit.Test;
 
-import cn.wym.support.container.PagerResultContainer;
-import cn.wym.support.container.QueryContainer;
-import cn.wym.support.entity.BaseEntity;
+import cn.weiyunmei.support.container.PagerResultContainer;
+import cn.weiyunmei.support.container.QueryContainer;
+import cn.weiyunmei.support.dao.impl.BaseDaoImpl;
+import cn.weiyunmei.support.entity.BaseEntity;
 
 public class BaseDaoImplTestCase {
 

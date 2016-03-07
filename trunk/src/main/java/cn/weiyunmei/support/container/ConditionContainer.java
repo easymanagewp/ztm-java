@@ -1,4 +1,4 @@
-package cn.wym.support.container;
+package cn.weiyunmei.support.container;
 
 public class ConditionContainer {
 	private String condition;

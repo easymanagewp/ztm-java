@@ -8,10 +8,11 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.web.servlet.View;
 
-import cn.wym.support.container.PagerResultContainer;
-import cn.wym.support.container.QueryContainer;
-import cn.wym.support.dao.BaseDao;
-import cn.wym.support.entity.BaseEntity;
+import cn.weiyunmei.support.container.PagerResultContainer;
+import cn.weiyunmei.support.container.QueryContainer;
+import cn.weiyunmei.support.controller.RestController;
+import cn.weiyunmei.support.dao.BaseDao;
+import cn.weiyunmei.support.entity.BaseEntity;
 
 @SuppressWarnings("unchecked")
 public class RestControllerTestCase {

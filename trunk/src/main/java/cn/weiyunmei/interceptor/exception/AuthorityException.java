@@ -1,4 +1,4 @@
-package cn.wym.interceptor.exception;
+package cn.weiyunmei.interceptor.exception;
 
 /**
  * 权限异常

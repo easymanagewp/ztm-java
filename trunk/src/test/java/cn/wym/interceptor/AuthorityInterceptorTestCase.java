@@ -9,7 +9,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import cn.wym.interceptor.exception.AuthorityException;
+import cn.weiyunmei.interceptor.AuthorityInterceptor;
+import cn.weiyunmei.interceptor.exception.AuthorityException;
 
 public class AuthorityInterceptorTestCase {
 	

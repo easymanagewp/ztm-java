@@ -1,8 +1,9 @@
-package cn.wym.support.dao.impl;
+package cn.weiyunmei.support.dao.impl;
 
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -13,12 +14,12 @@ import javax.persistence.TypedQuery;
 
 import org.apache.commons.lang3.StringUtils;
 
-import cn.wym.support.container.ConditionContainer;
-import cn.wym.support.container.OrderContainer;
-import cn.wym.support.container.PagerResultContainer;
-import cn.wym.support.container.QueryContainer;
-import cn.wym.support.dao.BaseDao;
-import cn.wym.support.entity.BaseEntity;
+import cn.weiyunmei.support.container.ConditionContainer;
+import cn.weiyunmei.support.container.OrderContainer;
+import cn.weiyunmei.support.container.PagerResultContainer;
+import cn.weiyunmei.support.container.QueryContainer;
+import cn.weiyunmei.support.dao.BaseDao;
+import cn.weiyunmei.support.entity.BaseEntity;
 
 public class BaseDaoImpl<E extends BaseEntity> implements BaseDao<E> {
 
@@ -231,6 +232,7 @@ public class BaseDaoImpl<E extends BaseEntity> implements BaseDao<E> {
 	 */
 	@Override
 	public void save(E e){
+		e.setCreateTime(new Date().getTime());
 		this.getEntityManager().persist(e);
 	}
 	

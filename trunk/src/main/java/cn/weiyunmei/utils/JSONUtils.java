@@ -1,4 +1,4 @@
-package cn.wym.utils;
+package cn.weiyunmei.utils;
 
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;

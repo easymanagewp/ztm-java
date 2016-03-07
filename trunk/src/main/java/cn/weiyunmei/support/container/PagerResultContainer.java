@@ -1,9 +1,9 @@
-package cn.wym.support.container;
+package cn.weiyunmei.support.container;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.wym.support.entity.BaseEntity;
+import cn.weiyunmei.support.entity.BaseEntity;
 
 public class PagerResultContainer {
 	

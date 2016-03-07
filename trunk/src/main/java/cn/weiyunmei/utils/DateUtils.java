@@ -1,4 +1,4 @@
-package cn.wym.utils;
+package cn.weiyunmei.utils;
 
 import java.sql.Timestamp;
 import java.text.DateFormat;

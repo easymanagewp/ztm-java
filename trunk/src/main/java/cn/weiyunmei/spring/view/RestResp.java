@@ -1,4 +1,4 @@
-package cn.wym.spring.view;
+package cn.weiyunmei.spring.view;
 
 public class RestResp {
 	public static final Integer FAIL = -1;

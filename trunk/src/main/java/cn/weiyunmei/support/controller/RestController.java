@@ -1,4 +1,4 @@
-package cn.wym.support.controller;
+package cn.weiyunmei.support.controller;
 
 import java.io.Serializable;
 import java.util.List;
@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.View;
 
-import cn.wym.spring.view.RestView;
-import cn.wym.support.container.PagerResultContainer;
-import cn.wym.support.container.QueryContainer;
-import cn.wym.support.dao.BaseDao;
-import cn.wym.support.entity.BaseEntity;
+import cn.weiyunmei.spring.view.RestView;
+import cn.weiyunmei.support.container.PagerResultContainer;
+import cn.weiyunmei.support.container.QueryContainer;
+import cn.weiyunmei.support.dao.BaseDao;
+import cn.weiyunmei.support.entity.BaseEntity;
 
 public class RestController<E extends BaseEntity> {
 

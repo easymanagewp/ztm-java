@@ -1,11 +1,11 @@
-package cn.wym.support.dao;
+package cn.weiyunmei.support.dao;
 
 import java.io.Serializable;
 import java.util.List;
 
-import cn.wym.support.container.PagerResultContainer;
-import cn.wym.support.container.QueryContainer;
-import cn.wym.support.entity.BaseEntity;
+import cn.weiyunmei.support.container.PagerResultContainer;
+import cn.weiyunmei.support.container.QueryContainer;
+import cn.weiyunmei.support.entity.BaseEntity;
 
 public interface BaseDao<E extends BaseEntity> {
 

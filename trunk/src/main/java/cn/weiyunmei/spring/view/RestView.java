@@ -1,4 +1,4 @@
-package cn.wym.spring.view;
+package cn.weiyunmei.spring.view;
 
 import java.io.PrintWriter;
 import java.util.Map;
@@ -10,8 +10,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.web.servlet.View;
 
-import cn.wym.interceptor.exception.AuthorityException;
-import cn.wym.utils.JSONUtils;
+import cn.weiyunmei.interceptor.exception.AuthorityException;
+import cn.weiyunmei.utils.JSONUtils;
 
 public class RestView implements View {
 	private Logger log = Logger.getLogger(RestView.class);

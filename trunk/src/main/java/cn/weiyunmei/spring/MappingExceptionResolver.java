@@ -1,4 +1,4 @@
-package cn.wym.spring;
+package cn.weiyunmei.spring;
 
 
 import javax.servlet.http.HttpServletRequest;
@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 
-import cn.wym.spring.view.RestView;
+import cn.weiyunmei.spring.view.RestView;
 
 public class MappingExceptionResolver extends SimpleMappingExceptionResolver  {
 
