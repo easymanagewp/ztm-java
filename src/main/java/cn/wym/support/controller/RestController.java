@@ -1,5 +1,6 @@
 package cn.wym.support.controller;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -79,12 +80,15 @@ public class RestController<E extends BaseEntity> {
 	@RequestMapping(method = RequestMethod.DELETE, params = { "ids" })
 	public View delete4Batch(@RequestParam("ids") String ids, HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
-		getBaseDao().delete(ids);
+		if(ids!=null){
+			Serializable[] idsArr = ids.split(",");
+			getBaseDao().delete(idsArr);
+		}
 		return new RestView(null, null);
 	}
 
 	@RequestMapping(value = "{id}", method = RequestMethod.DELETE)
-	public View delete(@PathVariable("id") String id) throws Exception {
+	public View delete(@PathVariable("id") String id,HttpServletRequest reqest,HttpServletResponse response) throws Exception {
 		getBaseDao().delete(id);
 		return new RestView(null, null);
 	}
@@ -92,7 +96,11 @@ public class RestController<E extends BaseEntity> {
 	@RequestMapping(value = "transform", method = RequestMethod.DELETE, params = { "isDel", "ids" })
 	public View delete4BatchUpdate(@RequestParam("ids") String ids, @RequestParam("isDel") String isDel,
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
-		getBaseDao().update2Del(ids);
+		if(ids!=null){
+			Serializable[] idsArr = ids.split(",");
+			getBaseDao().update2Del(idsArr);
+		}
+		
 		return new RestView(null, null);
 	}
 
