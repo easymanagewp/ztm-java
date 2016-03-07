@@ -28,7 +28,7 @@ CREATE TABLE `advertisement` (
   `icon` varchar(200) DEFAULT NULL COMMENT '图标',
   `simple_descript` varchar(200) DEFAULT NULL COMMENT '简述',
   `type` varchar(50) DEFAULT NULL COMMENT '任务类型',
-  `money_count` int(11) DEFAULT NULL COMMENT '总奖金',
+  `money_count` bigint(20) DEFAULT NULL COMMENT '总奖金',
   `money` int(11) DEFAULT NULL COMMENT '任务金额',
   `company_proportion` int(11) DEFAULT NULL COMMENT '分成比例，公司',
   `user_proportion` int(11) DEFAULT NULL COMMENT '分成比例 - 用户',
@@ -272,13 +272,14 @@ CREATE TABLE `user` (
   `weichat_name` varchar(45) DEFAULT NULL COMMENT '微信姓名',
   `birthday` bigint(20) DEFAULT NULL COMMENT '生日',
   `address` varchar(200) DEFAULT NULL COMMENT '地址',
-  `parentId` varchar(50) DEFAULT NULL COMMENT '上级粉丝',
+  `parent_id` varchar(50) DEFAULT NULL COMMENT '上级粉丝',
   `total_money` bigint(20) DEFAULT NULL COMMENT '累计收益',
   `money` bigint(20) DEFAULT NULL COMMENT '账户余额',
   `create_time` bigint(20) DEFAULT NULL COMMENT '创建时间',
+  `password` varchar(45) DEFAULT NULL COMMENT '登录密码',
   PRIMARY KEY (`id`),
-  KEY `parent_user_key_idx` (`parentId`),
-  CONSTRAINT `parent_user_key` FOREIGN KEY (`parentId`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  KEY `parent_user_key_idx` (`parent_id`),
+  CONSTRAINT `parent_user_key` FOREIGN KEY (`parent_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -416,15 +417,19 @@ DROP TABLE IF EXISTS `user_consume_log`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `user_consume_log` (
   `id` varchar(50) NOT NULL COMMENT 'id',
-  `create_time` bigint(20) DEFAULT NULL COMMENT '扣款时间',
-  `money` bigint(20) DEFAULT NULL COMMENT '扣款金额',
+  `create_time` bigint(20) DEFAULT NULL COMMENT '收益时间',
+  `money` bigint(20) DEFAULT NULL COMMENT '收益金额',
   `remark` varchar(45) DEFAULT NULL COMMENT '备注信息',
   `user_id` varchar(50) NOT NULL,
   `user_advertisement_id` varchar(50) NOT NULL,
+  `type` int(11) DEFAULT NULL COMMENT '收益类型',
+  `fans_id` varchar(50) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_user_consume_log_user1_idx` (`user_id`),
   KEY `fk_user_consume_log_user_advertisement1_idx` (`user_advertisement_id`),
+  KEY `fk_user_consume_log_user2_idx` (`fans_id`),
   CONSTRAINT `fk_user_consume_log_user1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_user_consume_log_user2` FOREIGN KEY (`fans_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_user_consume_log_user_advertisement1` FOREIGN KEY (`user_advertisement_id`) REFERENCES `user_advertisement` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -447,4 +452,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-03-07 15:33:43
+-- Dump completed on 2016-03-07 17:05:06
