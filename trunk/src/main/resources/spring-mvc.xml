@@ -23,7 +23,7 @@
 		class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping">
 		<property name="interceptors">
 			<list>
-				<bean class="cn.wym.interceptor.AuthorityInterceptor"></bean>
+				<bean class="cn.weiyunmei.interceptor.AuthorityInterceptor"></bean>
 			</list>
 		</property>
 	</bean>
@@ -32,7 +32,7 @@
 		class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
 	</bean>
 	
-	<bean id="exceptionResolver" class="cn.wym.spring.MappingExceptionResolver">
+	<bean id="exceptionResolver" class="cn.weiyunmei.spring.MappingExceptionResolver">
 		<property name="exceptionMappings">
 			<props>
 			</props>
