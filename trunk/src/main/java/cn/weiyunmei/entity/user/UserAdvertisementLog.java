@@ -1,4 +1,4 @@
-package cn.weiyunmei.entity;
+package cn.weiyunmei.entity.user;
 
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
