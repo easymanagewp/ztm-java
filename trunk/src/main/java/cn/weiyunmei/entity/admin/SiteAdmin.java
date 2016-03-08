@@ -1,4 +1,4 @@
-package cn.weiyunmei.entity;
+package cn.weiyunmei.entity.admin;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

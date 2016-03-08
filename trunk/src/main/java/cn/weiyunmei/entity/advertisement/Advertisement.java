@@ -1,4 +1,4 @@
-package cn.weiyunmei.entity;
+package cn.weiyunmei.entity.advertisement;
 
 import java.util.List;
 
@@ -10,6 +10,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import cn.weiyunmei.entity.enterprise.Enterprise;
 import cn.weiyunmei.support.entity.BaseEntity;
 
 /**

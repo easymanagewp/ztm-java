@@ -1,4 +1,4 @@
-package cn.weiyunmei.entity;
+package cn.weiyunmei.entity.advertisement;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
