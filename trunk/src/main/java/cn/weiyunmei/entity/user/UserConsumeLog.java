@@ -15,6 +15,9 @@ import cn.weiyunmei.support.entity.BaseEntity;
 @Entity
 @Table(name="user_consume_log")
 public class UserConsumeLog extends BaseEntity {
+	
+	public static final int TYPE_FANS = 1;
+	public static final int TYPE_ADVERTISEMENT = 0;
 
 	private long money;								// 收益金额
 	private String remark;							// 收益说明

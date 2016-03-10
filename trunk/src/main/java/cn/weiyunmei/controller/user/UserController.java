@@ -1,40 +1,103 @@
 package cn.weiyunmei.controller.user;
 
+import java.util.List;
+
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.View;
+
 import cn.weiyunmei.entity.user.User;
+import cn.weiyunmei.spring.view.RestView;
+import cn.weiyunmei.support.container.QueryContainer;
 import cn.weiyunmei.support.controller.RestController;
 
+@Controller
+@RequestMapping("user")
 public class UserController extends RestController<User> {
-	// 根据用户名和密码获取用户名
 	
-	// 获取当前用户的累计收益 - 今日收益 - 昨日收益 - 账户余额
+	/**
+	 * 获取用户账户余额
+	 * @param userId
+	 * @return
+	 */
+	@RequestMapping(value="money/{id}.do",method=RequestMethod.GET)
+	public View getMoney(@PathVariable(value="id")String userId){
+		User user = this.getBaseDao().findById(userId);
+		
+		// 依据日志验证
+		
+		return new RestView(user.getMoney(),null);
+	}
 	
-	// 获取当前推广中的广告列表
+	/**
+	 * 获取用户粉丝列表
+	 */
+	@RequestMapping(value="{id}/fans.do",method=RequestMethod.GET)
+	public View fans(@PathVariable(value="id")String userId){
+		QueryContainer qc = new QueryContainer();
+		qc.addCondition("parent.id="+userId);
+		List<User> fans = this.getBaseDao().findByQueryContainer(qc);
+		return new RestView(fans,null);
+	}
 	
-	// 获取当前用户已完成的广告列表
+	/**
+	 * 根据手机号和密码获取用户信息
+	 */
+	@RequestMapping(method=RequestMethod.GET,params={"mobile","password"})
+	public View findByMobileAndPassword(
+			@RequestParam("mobile")String mobile,
+			@RequestParam("password")String password){
+		QueryContainer qc = new QueryContainer();
+		qc.addCondition("mobile="+mobile);
+		qc.addCondition("password="+password);
+		List<User> fans = this.getBaseDao().findByQueryContainer(qc);
+		if(CollectionUtils.isEmpty(fans)){
+			return new RestView(null,null);
+		}else{
+			return new RestView(fans.get(0),null);
+		}
+	}
 	
-	// 获取当前用户进行中的广告列表
+	/**
+	 * 修改密码
+	 */
+	@RequestMapping(value="password.do",method=RequestMethod.PUT,params={"id","newPassword","oldPassword"})
+	public View resetPassword(
+			@RequestParam("id")String userId,
+			@RequestParam("newPassword")String newPassword,
+			@RequestParam("oldPassword")String oldPassword
+			){
+		return null;
+	}
 	
-	// 获取当前用户的收益明细
-	
-	// 获取当前用户的粉丝收益
-	
-	// 获取当前用户的完成任务次数
-	
-	// 获取当前用户的一级粉丝数
-	
-	// 获取当前用户的粉丝奖励比例
-	
-	// 获取当前用户的一级粉丝列表
-	
-	// 修改密码
-	
-	// 获取当前用户的提现记录
-	
-	// 用户提现
-	
-	// 接受任务
-	
-	// 提交任务
-	
-	// 获取任务类型
+	/**
+	 * 获取用户信息
+	 */
+	@RequestMapping(method=RequestMethod.POST,params={"wechatId","nickname","sex","province","city","headimgUrl"})
+	public View getUserInfoByWechatId(
+			@RequestParam(value="userId",required=false)String userId,	//存在则进行绑定
+			@RequestParam(value="weichatId")String wechatId,
+			@RequestParam(value="nickname")String nickname,
+			@RequestParam(value="sex")String sex,
+			@RequestParam(value="province")String province,
+			@RequestParam(value="city")String city,
+			@RequestParam(value="headimgUrl")String headimgUrl
+			){
+		if(StringUtils.isNotBlank(userId)){
+			// 绑定数据
+		}else{
+			// 根据wechatId获取用户
+				// 有，返回用户信息
+			
+				// 无，生成用户，返回用户信息
+		}
+		return null;
+	}
 }
+
+

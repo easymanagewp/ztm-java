@@ -5,6 +5,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 import cn.weiyunmei.support.entity.BaseEntity;
 
 /**
@@ -98,6 +100,9 @@ public class User extends BaseEntity {
 	public void setMoney(long money) {
 		this.money = money;
 	}
+	
+	// 密码不进行输出
+	@JSONField(serialize=false)
 	public String getPassword() {
 		return password;
 	}
