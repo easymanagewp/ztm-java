@@ -84,7 +84,7 @@ public class UserController extends RestController<User> {
 	/**
 	 * 微信登录/绑定/注册接口
 	 */
-	@RequestMapping(method=RequestMethod.POST,params={"wechatId","nickname","sex","province","city","headimgUrl"})
+	@RequestMapping(value="wechat.do",method=RequestMethod.POST,params={"wechatId","nickname","sex","province","city","headimgUrl"})
 	public View getUserInfoByWechatId(
 			@RequestParam(value="userId",required=false)String userId,	//存在则进行绑定
 			@RequestParam(value="weichatId")String wechatId,

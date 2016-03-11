@@ -1,5 +1,6 @@
 package cn.weiyunmei.entity.user;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -38,6 +39,8 @@ public class UserAdvertisementData extends BaseEntity {
 	public void setUserAdvertisement(UserAdvertisement userAdvertisement) {
 		this.userAdvertisement = userAdvertisement;
 	}
+	
+	@Column(length=100)
 	public String getValue() {
 		return value;
 	}

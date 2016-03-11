@@ -1,5 +1,6 @@
 package cn.weiyunmei.entity.user;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -34,6 +35,7 @@ public class UserConsumeLog extends BaseEntity {
 		this.money = money;
 	}
 	
+	@Column(name="remark",length=45)
 	public String getRemark() {
 		return remark;
 	}

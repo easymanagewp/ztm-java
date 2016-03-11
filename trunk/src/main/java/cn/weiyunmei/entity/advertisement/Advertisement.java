@@ -57,7 +57,7 @@ public class Advertisement extends BaseEntity {
 		this.icon = icon;
 	}
 	
-	@Column(length=200)
+	@Column(length=200,name="simple_descript")
 	public String getSimpleDescript() {
 		return simpleDescript;
 	}
@@ -74,6 +74,7 @@ public class Advertisement extends BaseEntity {
 		this.type = type;
 	}
 	
+	@Column(name="money_count")
 	public long getMoneyCount() {
 		return moneyCount;
 	}
@@ -87,24 +88,31 @@ public class Advertisement extends BaseEntity {
 		this.money = money;
 	}
 	
+	@Column(name="company_proportion")
 	public int getCompanyProportion() {
 		return companyProportion;
 	}
 	public void setCompanyProportion(int companyProportion) {
 		this.companyProportion = companyProportion;
 	}
+	
+	@Column(name="user_proportion")
 	public int getUserProportion() {
 		return userProportion;
 	}
 	public void setUserProportion(int userProportion) {
 		this.userProportion = userProportion;
 	}
+	
+	@Column(name="start_time")
 	public long getStartTime() {
 		return startTime;
 	}
 	public void setStartTime(long startTime) {
 		this.startTime = startTime;
 	}
+	
+	@Column(name="end_time")
 	public long getEndTime() {
 		return endTime;
 	}
@@ -122,6 +130,7 @@ public class Advertisement extends BaseEntity {
 	}
 	
 	@Lob
+	@Column(name="execution_flow")
 	public String getExecutionFlow() {
 		return executionFlow;
 	}
@@ -136,7 +145,7 @@ public class Advertisement extends BaseEntity {
 		this.details = details;
 	}
 	
-	@Column(length=200)
+	@Column(length=200,name="execution_address")
 	public String getExecutionAddress() {
 		return executionAddress;
 	}
@@ -144,6 +153,7 @@ public class Advertisement extends BaseEntity {
 		this.executionAddress = executionAddress;
 	}
 	
+	@Column(name="is_examine")
 	public int getIsExamine() {
 		return isExamine;
 	}

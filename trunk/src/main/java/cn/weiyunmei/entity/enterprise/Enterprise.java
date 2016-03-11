@@ -29,7 +29,7 @@ public class Enterprise extends BaseEntity {
 	private long frozenMoney;		// 冻结金额
 	private long consumeMoney;		// 累计消费金额
 	
-	@Column(length=45)
+	@Column(length=45,name="login_name")
 	public String getLoginName() {
 		return loginName;
 	}
@@ -77,7 +77,7 @@ public class Enterprise extends BaseEntity {
 		this.phone = phone;
 	}
 	
-	@Column(length=45)
+	@Column(length=45,name="payment_card")
 	public String getPaymentCard() {
 		return paymentCard;
 	}
@@ -85,7 +85,7 @@ public class Enterprise extends BaseEntity {
 		this.paymentCard = paymentCard;
 	}
 	
-	@Column(length=45)
+	@Column(length=45,name="alipay")
 	public String getAlipay() {
 		return alipay;
 	}
@@ -93,7 +93,7 @@ public class Enterprise extends BaseEntity {
 		this.alipay = alipay;
 	}
 	
-	@Column(length=200)
+	@Column(length=200,name="business_lincense")
 	public String getBusinessLicense() {
 		return businessLicense;
 	}
@@ -101,7 +101,7 @@ public class Enterprise extends BaseEntity {
 		this.businessLicense = businessLicense;
 	}
 	
-	@Column(length=200)
+	@Column(length=200,name="identity_card_face")
 	public String getIdentityCardFace() {
 		return identityCardFace;
 	}
@@ -109,7 +109,7 @@ public class Enterprise extends BaseEntity {
 		this.identityCardFace = identityCardFace;
 	}
 	
-	@Column(length=200)
+	@Column(length=200,name="identity_card_back")
 	public String getIdentityCardBack() {
 		return identityCardBack;
 	}
@@ -122,12 +122,14 @@ public class Enterprise extends BaseEntity {
 	public void setMoney(long money) {
 		this.money = money;
 	}
+	@Column(name="frozen_money")
 	public long getFrozenMoney() {
 		return frozenMoney;
 	}
 	public void setFrozenMoney(long frozenMoney) {
 		this.frozenMoney = frozenMoney;
 	}
+	@Column(name="consume_money")
 	public long getConsumeMoney() {
 		return consumeMoney;
 	}

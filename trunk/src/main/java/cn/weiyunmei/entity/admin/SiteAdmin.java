@@ -17,7 +17,7 @@ public class SiteAdmin extends BaseEntity {
 	private String loginName;	// 登录名
 	private String password;	// 密码
 	
-	@Column(length=45,nullable=false)
+	@Column(length=45,nullable=false,name="login_name")
 	public String getLoginName() {
 		return loginName;
 	}

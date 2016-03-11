@@ -1,5 +1,6 @@
 package cn.weiyunmei.entity.enterprise;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -25,6 +26,8 @@ public class EnterpriseRechargeLog extends BaseEntity {
 	public void setMoney(long money) {
 		this.money = money;
 	}
+	
+	@Column(length=45)
 	public String getRemark() {
 		return remark;
 	}

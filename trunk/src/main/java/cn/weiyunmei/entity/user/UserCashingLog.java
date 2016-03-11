@@ -1,5 +1,6 @@
 package cn.weiyunmei.entity.user;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -19,7 +20,7 @@ public class UserCashingLog extends BaseEntity {
 	private long money;					// 提现金额
 	private String remark;				// 备注
 	private String orderNo;				// 提现流水号
-	private String weichatOrderNo;		// 微信支付订单号
+	private String wechatOrderNo;		// 微信支付订单号
 	private User user;					// 提现用户
 	
 	public long getMoney() {
@@ -28,23 +29,29 @@ public class UserCashingLog extends BaseEntity {
 	public void setMoney(long money) {
 		this.money = money;
 	}
+	
+	@Column(length=45)
 	public String getRemark() {
 		return remark;
 	}
 	public void setRemark(String remark) {
 		this.remark = remark;
 	}
+	
+	@Column(name="order_no",length=45)
 	public String getOrderNo() {
 		return orderNo;
 	}
 	public void setOrderNo(String orderNo) {
 		this.orderNo = orderNo;
 	}
-	public String getWeichatOrderNo() {
-		return weichatOrderNo;
+	
+	@Column(name="wechat_order_no",length=200)
+	public String getWechatOrderNo() {
+		return wechatOrderNo;
 	}
-	public void setWeichatOrderNo(String weichatOrderNo) {
-		this.weichatOrderNo = weichatOrderNo;
+	public void setWechatOrderNo(String wechatOrderNo) {
+		this.wechatOrderNo = wechatOrderNo;
 	}
 	
 	@ManyToOne

@@ -1,5 +1,6 @@
 package cn.weiyunmei.entity.user;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -33,6 +34,8 @@ public class UserAdvertisementLog extends BaseEntity {
 	public void setStatus(int status) {
 		this.status = status;
 	}
+	
+	@Column(length=100)
 	public String getRemark() {
 		return remark;
 	}

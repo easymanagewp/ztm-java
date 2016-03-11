@@ -1,5 +1,6 @@
 package cn.weiyunmei.entity.user;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -31,36 +32,44 @@ public class User extends BaseEntity {
 	private long money;				// 账户余额
 	private String password;		// 登录密码
 	
+	@Column(length=200)
 	public String getIcon() {
 		return icon;
 	}
 	public void setIcon(String icon) {
 		this.icon = icon;
 	}
+	@Column(length=45)
 	public String getName() {
 		return name;
 	}
 	public void setName(String name) {
 		this.name = name;
 	}
+	@Column(length=5)
 	public String getSex() {
 		return sex;
 	}
 	public void setSex(String sex) {
 		this.sex = sex;
 	}
+	@Column(length=20)
 	public String getMobile() {
 		return mobile;
 	}
 	public void setMobile(String mobile) {
 		this.mobile = mobile;
 	}
+	
+	@Column(name="wechat_id",length=45)
 	public String getWechatId() {
 		return wechatId;
 	}
 	public void setWechatId(String weichatId) {
 		this.wechatId = weichatId;
 	}
+	
+	@Column(name="wechat_name",length=45)
 	public String getWechatName() {
 		return wechatName;
 	}
@@ -73,6 +82,7 @@ public class User extends BaseEntity {
 	public void setBirthday(long birthday) {
 		this.birthday = birthday;
 	}
+	@Column(length=200)
 	public String getAddress() {
 		return address;
 	}
@@ -88,6 +98,8 @@ public class User extends BaseEntity {
 	public void setParent(User parent) {
 		this.parent = parent;
 	}
+	
+	@Column(name="total_money")
 	public long getTotalMoney() {
 		return totalMoney;
 	}
@@ -103,6 +115,7 @@ public class User extends BaseEntity {
 	
 	// 密码不进行输出
 	@JSONField(serialize=false)
+	@Column(length=45)
 	public String getPassword() {
 		return password;
 	}

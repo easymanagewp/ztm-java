@@ -36,6 +36,7 @@ public class BaseEntity {
 		this.isDel = isDel;
 	}
 
+	@Column(name="create_time")
 	public Long getCreateTime() {
 		return createTime;
 	}
