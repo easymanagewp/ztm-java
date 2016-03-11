@@ -78,7 +78,7 @@ public class UserController extends RestController<User> {
 			this.getBaseDao().update(user);
 		}
 		
-		return null;
+		return new RestView(null,null);
 	}
 	
 	/**
