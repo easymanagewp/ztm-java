@@ -15,6 +15,12 @@ import cn.weiyunmei.support.entity.BaseEntity;
 @Entity
 @Table(name="user_advertisement")
 public class UserAdvertisement extends BaseEntity {
+	public static final int STATUS_STARTED = 0;	// 任务已接受
+	
+	public static final int STATUS_COMPLETE = 1;	// 任务已提交
+	
+	public static final int STATUS_END = 2;	// 任务已完成
+	
 	
 	private Advertisement advertisement;	// 广告主体
 	private int status;						// 状态

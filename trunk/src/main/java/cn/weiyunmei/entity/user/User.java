@@ -22,8 +22,8 @@ public class User extends BaseEntity {
 	private String name;			// 姓名
 	private String sex;				// 性别
 	private String mobile;			// 手机号
-	private String weichatId;		// 微信号openId
-	private String weichatName;		// 微信名称
+	private String wechatId;		// 微信号openId
+	private String wechatName;		// 微信名称
 	private long birthday;			// 生日
 	private String address;			// 地址
 	private User parent;			// 邀请者
@@ -55,17 +55,17 @@ public class User extends BaseEntity {
 	public void setMobile(String mobile) {
 		this.mobile = mobile;
 	}
-	public String getWeichatId() {
-		return weichatId;
+	public String getWechatId() {
+		return wechatId;
 	}
-	public void setWeichatId(String weichatId) {
-		this.weichatId = weichatId;
+	public void setWechatId(String weichatId) {
+		this.wechatId = weichatId;
 	}
-	public String getWeichatName() {
-		return weichatName;
+	public String getWechatName() {
+		return wechatName;
 	}
-	public void setWeichatName(String weichatName) {
-		this.weichatName = weichatName;
+	public void setWechatName(String weichatName) {
+		this.wechatName = weichatName;
 	}
 	public long getBirthday() {
 		return birthday;

@@ -40,7 +40,7 @@ public class UserController extends RestController<User> {
 	@RequestMapping(value="{id}/fans.do",method=RequestMethod.GET)
 	public View fans(@PathVariable(value="id")String userId){
 		QueryContainer qc = new QueryContainer();
-		qc.addCondition("parent.id="+userId);
+		qc.addCondition("parent.id='"+userId+"'");
 		List<User> fans = this.getBaseDao().findByQueryContainer(qc);
 		return new RestView(fans,null);
 	}
@@ -53,8 +53,8 @@ public class UserController extends RestController<User> {
 			@RequestParam("mobile")String mobile,
 			@RequestParam("password")String password){
 		QueryContainer qc = new QueryContainer();
-		qc.addCondition("mobile="+mobile);
-		qc.addCondition("password="+password);
+		qc.addCondition("mobile='"+mobile+"'");
+		qc.addCondition("password='"+password+"'");
 		List<User> fans = this.getBaseDao().findByQueryContainer(qc);
 		if(CollectionUtils.isEmpty(fans)){
 			return new RestView(null,null);
@@ -72,11 +72,17 @@ public class UserController extends RestController<User> {
 			@RequestParam("newPassword")String newPassword,
 			@RequestParam("oldPassword")String oldPassword
 			){
+		User user = this.getBaseDao().findById(userId);
+		if(StringUtils.equals(user.getPassword(), oldPassword)){
+			user.setPassword(newPassword);
+			this.getBaseDao().update(user);
+		}
+		
 		return null;
 	}
 	
 	/**
-	 * 获取用户信息
+	 * 微信登录/绑定/注册接口
 	 */
 	@RequestMapping(method=RequestMethod.POST,params={"wechatId","nickname","sex","province","city","headimgUrl"})
 	public View getUserInfoByWechatId(
@@ -88,15 +94,32 @@ public class UserController extends RestController<User> {
 			@RequestParam(value="city")String city,
 			@RequestParam(value="headimgUrl")String headimgUrl
 			){
-		if(StringUtils.isNotBlank(userId)){
-			// 绑定数据
+		if(StringUtils.isNotBlank(userId) && StringUtils.isNotBlank(wechatId)){
+			User user = this.getBaseDao().findById(userId);
+			user.setWechatId(wechatId);
+			user.setWechatName(nickname);
+			return new RestView("",null);
 		}else{
 			// 根据wechatId获取用户
+			QueryContainer qc = new QueryContainer();
+			qc.addCondition("wechatId='"+wechatId+"'");
+			List<User> users = this.getBaseDao().findByQueryContainer(qc);
+			if(CollectionUtils.isNotEmpty(users)){
 				// 有，返回用户信息
-			
+				return new RestView(users.get(0),null);
+			}else{
 				// 无，生成用户，返回用户信息
+				User user = new User();
+				user.setIcon(headimgUrl);
+				user.setName(nickname);
+				user.setSex(sex);
+				user.setWechatId(wechatId);
+				user.setWechatName(nickname);
+				user.setAddress(province+"省"+city);
+				this.getBaseDao().save(user);
+				return new RestView(user,null);
+			}
 		}
-		return null;
 	}
 }
 

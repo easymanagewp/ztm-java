@@ -29,7 +29,7 @@ public class UserConsumeLogController extends RestController<UserConsumeLog> {
 	public View list(UserConsumeLog entity, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String userId = entity.getUser().getId();
 		QueryContainer qc = new QueryContainer();
-		qc.addCondition("user.id="+userId);
+		qc.addCondition("user.id='"+userId+"'");
 		List<UserConsumeLog> userConsumeLogs = getBaseDao().findByQueryContainer(qc);
 		return new RestView(userConsumeLogs, null);
 	}
@@ -40,7 +40,7 @@ public class UserConsumeLogController extends RestController<UserConsumeLog> {
 	@RequestMapping(value="/fans.do",method=RequestMethod.GET,params={"user.id"})
 	public View fans(@RequestParam("user.id")String userId){
 		QueryContainer qc = new QueryContainer();
-		qc.addCondition("user.id="+userId);
+		qc.addCondition("user.id='"+userId+"'");
 		qc.addCondition("type="+UserConsumeLog.TYPE_FANS);
 		List<UserConsumeLog> userConsumeLogs = getBaseDao().findByQueryContainer(qc);
 		
@@ -94,7 +94,7 @@ public class UserConsumeLogController extends RestController<UserConsumeLog> {
 		int count = 0;
 		QueryContainer qc = new QueryContainer();
 		qc.addCondition("createTime BETWEEN "+startTime+" AND "+endTime);
-		qc.addCondition("user.id="+userId);
+		qc.addCondition("user.id='"+userId+"'");
 		List<UserConsumeLog> userConsumeLogs = getBaseDao().findByQueryContainer(qc);
 		
 		for(UserConsumeLog userConsumeLog : userConsumeLogs){
@@ -110,7 +110,9 @@ public class UserConsumeLogController extends RestController<UserConsumeLog> {
 	@RequestMapping(value="/count.do",method=RequestMethod.GET,params={"user.id"})
 	public View getCount(@RequestParam("user.id")String userId){
 		int count = 0;
-		List<UserConsumeLog> userConsumeLogs = getBaseDao().findAll();
+		QueryContainer qc = new QueryContainer();
+		qc.addCondition("user.id='"+userId+"'");
+		List<UserConsumeLog> userConsumeLogs = getBaseDao().findByQueryContainer(qc);
 		
 		for(UserConsumeLog userConsumeLog : userConsumeLogs){
 			count+= userConsumeLog.getMoney();

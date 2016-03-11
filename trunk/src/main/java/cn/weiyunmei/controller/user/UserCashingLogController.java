@@ -25,7 +25,7 @@ public class UserCashingLogController extends RestController<UserCashingLog> {
 	public View list(UserCashingLog entity, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String userId = entity.getUser().getId();
 		QueryContainer qc = new QueryContainer();
-		qc.addCondition("user.id="+userId);
+		qc.addCondition("user.id='"+userId+"'");
 		List<UserCashingLog> userCashingLogs = getBaseDao().findByQueryContainer(qc);
 		return new RestView(userCashingLogs, null);
 	}
