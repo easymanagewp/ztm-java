@@ -3,10 +3,13 @@ package cn.weiyunmei.support.dao;
 import java.io.Serializable;
 import java.util.List;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import cn.weiyunmei.support.container.PagerResultContainer;
 import cn.weiyunmei.support.container.QueryContainer;
 import cn.weiyunmei.support.entity.BaseEntity;
 
+@Transactional
 public interface BaseDao<E extends BaseEntity> {
 
 
@@ -36,6 +39,13 @@ public interface BaseDao<E extends BaseEntity> {
 	 * @return
 	 */
 	List<E> findByQueryContainer(QueryContainer qc);
+	
+	/**
+	 * 根据查询容器获取总记录数
+	 * @param qc
+	 * @return
+	 */
+	long countByQueryContainer(QueryContainer qc);
 
 	/**
 	 * 根据jpql语句查询

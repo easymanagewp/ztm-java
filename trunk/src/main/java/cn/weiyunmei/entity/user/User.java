@@ -31,6 +31,7 @@ public class User extends BaseEntity {
 	private long totalMoney;		// 累计收益
 	private long money;				// 账户余额
 	private String password;		// 登录密码
+	private String code;			// 用户推荐码
 	
 	@Column(length=200)
 	public String getIcon() {
@@ -122,6 +123,13 @@ public class User extends BaseEntity {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	public String getCode() {
+		return code;
+	}
+	public void setCode(String code) {
+		this.code = code;
+	}
+	
 	
 	
 	

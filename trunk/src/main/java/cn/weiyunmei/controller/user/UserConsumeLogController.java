@@ -31,7 +31,7 @@ public class UserConsumeLogController extends RestController<UserConsumeLog> {
 		QueryContainer qc = new QueryContainer();
 		qc.addCondition("user.id='"+userId+"'");
 		List<UserConsumeLog> userConsumeLogs = getBaseDao().findByQueryContainer(qc);
-		return new RestView(userConsumeLogs, null);
+		return new RestView(userConsumeLogs);
 	}
 	
 	/**

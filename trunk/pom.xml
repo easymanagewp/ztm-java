@@ -154,6 +154,7 @@
 			<artifactId>httpclient</artifactId>
 			<version>${httpclient.version}</version>
 		</dependency>
+		
 		<!-- log4j -->
 		<dependency>
 			<groupId>log4j</groupId>
@@ -219,6 +220,13 @@
 			<artifactId>easymock</artifactId>
 			<version>2.3</version>
 		</dependency>
+		
+		<dependency>
+		  <groupId>com.belerweb</groupId>
+		  <artifactId>pinyin4j</artifactId>
+		  <version>2.5.0</version>
+		</dependency>
+		
 	</dependencies>
 
 	<build>

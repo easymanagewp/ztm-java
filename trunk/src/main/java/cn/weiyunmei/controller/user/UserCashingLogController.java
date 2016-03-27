@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.View;
 
 import cn.weiyunmei.entity.user.UserCashingLog;
@@ -28,6 +30,19 @@ public class UserCashingLogController extends RestController<UserCashingLog> {
 		qc.addCondition("user.id='"+userId+"'");
 		List<UserCashingLog> userCashingLogs = getBaseDao().findByQueryContainer(qc);
 		return new RestView(userCashingLogs, null);
+	}
+	
+	@RequestMapping(value="/money_count.do",method=RequestMethod.GET)
+	public View cashingCount(
+			@RequestParam("user.id")String userId){
+		QueryContainer qc = new QueryContainer();
+		qc.addCondition("user.id='"+userId+"'");
+		List<UserCashingLog> userCashingLogs = getBaseDao().findByQueryContainer(qc);
+		long cashingLog = 0;
+		for(UserCashingLog userCashingLog : userCashingLogs){
+			cashingLog+= userCashingLog.getMoney();
+		}
+		return new RestView(cashingLog);
 	}
 	
 	

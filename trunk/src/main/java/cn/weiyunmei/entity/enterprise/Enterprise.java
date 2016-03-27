@@ -28,6 +28,7 @@ public class Enterprise extends BaseEntity {
 	private long money;				// 账户余额
 	private long frozenMoney;		// 冻结金额
 	private long consumeMoney;		// 累计消费金额
+	private long rechargeMoney;		// 累计充值
 	
 	@Column(length=45,name="login_name")
 	public String getLoginName() {
@@ -135,6 +136,12 @@ public class Enterprise extends BaseEntity {
 	}
 	public void setConsumeMoney(long consumeMoney) {
 		this.consumeMoney = consumeMoney;
+	}
+	public long getRechargeMoney() {
+		return rechargeMoney;
+	}
+	public void setRechargeMoney(long rechargeMoney) {
+		this.rechargeMoney = rechargeMoney;
 	}
 	
 	

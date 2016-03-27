@@ -2,8 +2,13 @@ package cn.weiyunmei.controller.user;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,10 +20,62 @@ import cn.weiyunmei.entity.user.User;
 import cn.weiyunmei.spring.view.RestView;
 import cn.weiyunmei.support.container.QueryContainer;
 import cn.weiyunmei.support.controller.RestController;
+import cn.weiyunmei.support.exception.GlobalException;
+import cn.weiyunmei.utils.BeanPropertiesUtils;
+import cn.weiyunmei.utils.Random;
 
 @Controller
 @RequestMapping("user")
 public class UserController extends RestController<User> {
+	
+	@Override
+	public View update(User entity, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		User oldUser = this.getBaseDao().findById(entity.getId());
+		String[] igPro = BeanPropertiesUtils.getEmptyProperties(entity);
+		ArrayUtils.add(igPro, "password");
+		BeanUtils.copyProperties(entity, oldUser,igPro);
+		this.getBaseDao().update(oldUser);
+		return new RestView(oldUser);
+	}
+	
+	@Override
+	public View add(User entity, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String mobile = entity.getMobile();
+		QueryContainer qc = new QueryContainer();
+		qc.addCondition("mobile='"+mobile+"'");
+		long count = this.getBaseDao().countByQueryContainer(qc);
+		// 验证手机号是否注册
+		if(count>0){
+			throw new GlobalException("手机号已经被注册", "UCAx0001");
+		}
+		// 生成推荐码
+		while(true){
+			String randomCode = Random.getRandomCode();
+			qc = new QueryContainer();
+			qc.addCondition("code='"+randomCode+"'");
+			count = this.getBaseDao().countByQueryContainer(qc);
+			if(count > 0){
+				continue;
+			}else{
+				entity.setCode(randomCode);
+				break;
+			}
+		}
+		
+		// 邀请人
+		if(entity.getParent()!=null && StringUtils.isNotBlank(entity.getParent().getCode())){
+			qc = new QueryContainer();
+			qc.addCondition("code='"+entity.getParent().getCode()+"'");
+			List<User> parent = this.getBaseDao().findByQueryContainer(qc);
+			if(CollectionUtils.isEmpty(parent)){
+				entity.setParent(null);
+			}else{
+				entity.setParent(parent.get(0));
+			}
+		}
+		
+		return super.add(entity, request, response);
+	}
 	
 	/**
 	 * 获取用户账户余额
@@ -45,6 +102,16 @@ public class UserController extends RestController<User> {
 		return new RestView(fans,null);
 	}
 	
+	@Override
+	public View page(User entity, QueryContainer qc, HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		// 获取指定人员下的一级粉丝列表
+		if(entity.getParent()!=null && StringUtils.isNotBlank(entity.getParent().getId())){
+			qc.addCondition("parent.id='"+entity.getParent().getId()+"'");
+		}
+		return super.page(entity, qc, request, response);
+	}
+	
 	/**
 	 * 根据手机号和密码获取用户信息
 	 */
@@ -55,12 +122,29 @@ public class UserController extends RestController<User> {
 		QueryContainer qc = new QueryContainer();
 		qc.addCondition("mobile='"+mobile+"'");
 		qc.addCondition("password='"+password+"'");
-		List<User> fans = this.getBaseDao().findByQueryContainer(qc);
-		if(CollectionUtils.isEmpty(fans)){
-			return new RestView(null,null);
+		List<User> users = this.getBaseDao().findByQueryContainer(qc);
+		if(CollectionUtils.isEmpty(users)){
+			throw new GlobalException("用户名或密码错误", "UCx0002");
 		}else{
-			return new RestView(fans.get(0),null);
+			return new RestView(users.get(0),null);
 		}
+	}
+	
+	@RequestMapping(value="password.do",method=RequestMethod.PUT,params={"mobile","newPassword"})
+	public View setPassword(
+			@RequestParam("mobile")String mobile,
+			@RequestParam("newPassword")String newPassword
+			){
+		QueryContainer qc = new QueryContainer();
+		qc.addCondition("mobile='"+mobile+"'");
+		List<User> users = this.getBaseDao().findByQueryContainer(qc);
+		if(CollectionUtils.isEmpty(users)){
+			throw new GlobalException("手机号不存在","Ux0005");
+		}
+		User user = users.get(0);
+		user.setPassword(newPassword);
+		this.getBaseDao().update(user);
+		return new RestView(user);
 	}
 	
 	/**
@@ -87,7 +171,7 @@ public class UserController extends RestController<User> {
 	@RequestMapping(value="wechat.do",method=RequestMethod.POST,params={"wechatId","nickname","sex","province","city","headimgUrl"})
 	public View getUserInfoByWechatId(
 			@RequestParam(value="userId",required=false)String userId,	//存在则进行绑定
-			@RequestParam(value="weichatId")String wechatId,
+			@RequestParam(value="wechatId")String wechatId,
 			@RequestParam(value="nickname")String nickname,
 			@RequestParam(value="sex")String sex,
 			@RequestParam(value="province")String province,
@@ -98,7 +182,8 @@ public class UserController extends RestController<User> {
 			User user = this.getBaseDao().findById(userId);
 			user.setWechatId(wechatId);
 			user.setWechatName(nickname);
-			return new RestView("",null);
+			this.getBaseDao().update(user);
+			return new RestView(user,null);
 		}else{
 			// 根据wechatId获取用户
 			QueryContainer qc = new QueryContainer();

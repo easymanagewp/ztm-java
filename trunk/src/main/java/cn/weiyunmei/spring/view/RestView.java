@@ -11,6 +11,7 @@ import org.apache.log4j.Logger;
 import org.springframework.web.servlet.View;
 
 import cn.weiyunmei.interceptor.exception.AuthorityException;
+import cn.weiyunmei.support.exception.GlobalException;
 import cn.weiyunmei.utils.JSONUtils;
 
 public class RestView implements View {
@@ -58,6 +59,7 @@ public class RestView implements View {
 		if(StringUtils.isNotBlank(callback)){
 			value = callback +"(" + value + ")";
 		}
+		System.out.println(value);
 		pw.write(value);
 	}
 
@@ -67,6 +69,9 @@ public class RestView implements View {
 			AuthorityException authorityException = (AuthorityException) this.exception;
 			int errCode = authorityException.getCode();
 			resp.setMessage("错误码：["+errCode+"]，"+authorityException.getMessage());
+		}else if(GlobalException.class.isAssignableFrom(this.exception.getClass())){
+			GlobalException globalException = (GlobalException) this.exception;
+			resp.setMessage("["+globalException.getCode()+"]："+globalException.getMessage());
 		}else{
 			log.error("不可预知的异常",this.exception);
 			resp.setMessage("操作失败");

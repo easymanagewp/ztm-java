@@ -5,6 +5,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -33,6 +36,7 @@ import cn.weiyunmei.entity.user.UserAdvertisementLog;
 import cn.weiyunmei.spring.view.RestView;
 import cn.weiyunmei.support.container.QueryContainer;
 import cn.weiyunmei.support.controller.RestController;
+import cn.weiyunmei.support.exception.GlobalException;
 
 @Controller
 @RequestMapping("/user/advertisement")
@@ -43,6 +47,17 @@ public class UserAdvertisementController extends RestController<UserAdvertisemen
 	@Autowired private UserAdvertisementDataDao userAdvertisementDataDao;
 	@Autowired private UserDao userDao;
 	@Autowired private UserAdvertisementLogDao userAdvertisementLogDao;
+	
+	@Override
+	public View page(UserAdvertisement entity, QueryContainer qc, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		int status = entity.getStatus();
+		qc.addCondition("status="+status);
+		if(entity.getAdvertisement()!=null && StringUtils.isBlank(entity.getAdvertisement().getId())){
+			qc.addCondition("advertisement.id='"+entity.getAdvertisement().getId()+"'");
+		}
+		return super.page(entity, qc, request, response);
+	}
 	
 	/**
 	 * 根据状态获取已完成的任务总数量
@@ -65,7 +80,7 @@ public class UserAdvertisementController extends RestController<UserAdvertisemen
 	/**
 	 * 提交任务
 	 */
-	@RequestMapping(value="{userId}/{advertisementId}.do",method=RequestMethod.PUT,params={"data","status=complete"})
+	@RequestMapping(value="{userId}/{advertisementId}/complete.do",method=RequestMethod.PUT,params={"data"})
 	public View complete(
 			@PathVariable("userId")String userId,
 			@PathVariable("advertisementId")String advertisementId,
@@ -84,12 +99,17 @@ public class UserAdvertisementController extends RestController<UserAdvertisemen
 		Base64 base64 = new Base64();
 		dataBytes = base64.decode(dataBytes);
 		String dataJsonStr = new String(dataBytes);
-		JSONObject dataJson = JSON.parseObject(dataJsonStr);
+		Map<String,String> dataJson = new HashMap<String,String>();
+		String[] dataJsonArr = dataJsonStr.split(",");
+		for(String key : dataJsonArr){
+			dataJson.put(key.split(":")[0], key.split(":")[1]);
+		}
+		//JSONObject dataJson = JSON.parseObject(dataJsonStr);
 		
 		// 解析data，保存提交数据
 		Set<String> names = dataJson.keySet();
 		for(String name : names){
-			String value = dataJson.getString(name);
+			String value = dataJson.get(name);
 			qc = new QueryContainer();
 			qc.addCondition("name='"+name+"'");
 			qc.addCondition("advertisement.id='"+advertisementId+"'");
@@ -125,6 +145,16 @@ public class UserAdvertisementController extends RestController<UserAdvertisemen
 	public View complete(
 			@PathVariable("userId")String userId,
 			@PathVariable("advertisementId")String advertisementId){
+		// 验证用户是否已经接受过此任务
+		QueryContainer qc = new QueryContainer();
+		qc.addCondition("user.id='"+userId+"'");
+		qc.addCondition("advertisement.id='"+advertisementId+"'");
+		long count = this.getBaseDao().countByQueryContainer(qc);
+		if(count>0){
+			throw new GlobalException("该任务已经接受过，请勿重复接受","UDx0001");
+		}
+		
+		// 获取用户信息和任务信息
 		User user = userDao.findById(userId);
 		Advertisement advertisement = advertisementDao.findById(advertisementId);
 		// 创建用户任务信息
@@ -159,7 +189,7 @@ public class UserAdvertisementController extends RestController<UserAdvertisemen
 				qc.addCondition("user.id='"+userId+"'");
 				List<UserAdvertisement> userAdvertisements = this.getBaseDao().findByQueryContainer(qc);
 				if(CollectionUtils.isNotEmpty(userAdvertisements)){
-					status.put(userAdvertisements.get(0).getId(), userAdvertisements.get(0).getStatus());
+					status.put(userAdvertisements.get(0).getAdvertisement().getId(), userAdvertisements.get(0).getStatus());
 				}
 			}
 			return new RestView(status,null);

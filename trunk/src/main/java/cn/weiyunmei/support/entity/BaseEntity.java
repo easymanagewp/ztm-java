@@ -12,7 +12,7 @@ public class BaseEntity {
 	
 	private String id;
 	
-	private boolean isDel = false;
+	private int isDel = 0;
 	
 	private Long createTime;
 
@@ -28,11 +28,12 @@ public class BaseEntity {
 		this.id = id;
 	}
 
-	public boolean isDel() {
+	@Column(name="is_del")
+	public int getIsDel() {
 		return isDel;
 	}
 
-	public void setDel(boolean isDel) {
+	public void setIsDel(int isDel) {
 		this.isDel = isDel;
 	}
 

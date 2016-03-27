@@ -150,6 +150,7 @@ public class BaseDaoImpl<E extends BaseEntity> implements BaseDao<E> {
 		PagerResultContainer pagerResult = new PagerResultContainer();
 		String jpql = createJPQLByQueryContainer(qc);
 		jpql = "SELECT COUNT(id) " + jpql;
+		
 		Query query = this.getEntityManager().createQuery(jpql);
 		Long totalRows = (Long) query.getSingleResult();
 		pagerResult.setTotalRows(totalRows);
@@ -161,6 +162,10 @@ public class BaseDaoImpl<E extends BaseEntity> implements BaseDao<E> {
 			totalPage = (int) (totalRows / qc.getPageSize());
 		}
 		
+		if(totalPage == 0 ){
+			totalPage = 1;
+		}
+		
 		pagerResult.setTotalPage(totalPage);
 		
 		return pagerResult;
@@ -168,6 +173,7 @@ public class BaseDaoImpl<E extends BaseEntity> implements BaseDao<E> {
 
 	private Query createQueryByQueryContainer(QueryContainer qc) {
 		String jpql = createJPQLByQueryContainer(qc);
+		
 		return createQueryByJPQL(jpql);
 	}
 
@@ -208,14 +214,15 @@ public class BaseDaoImpl<E extends BaseEntity> implements BaseDao<E> {
 				.append(order.getOrderType())
 				.append(",");
 		}
-		return sbf.delete(0, sbf.length() - 1).toString();
+		
+		return sbf.delete(sbf.length() - 1,sbf.length()).toString();
 	}
 
 	private String createBaseJPQL() {
 		StringBuffer sbf = new StringBuffer();
 		sbf.append("FROM ")
 			.append(getEntityName())
-			.append(" WHERE isDel=false");
+			.append(" WHERE isDel=0 ");
 		return sbf.toString();
 	}
 
@@ -250,9 +257,18 @@ public class BaseDaoImpl<E extends BaseEntity> implements BaseDao<E> {
 	public void update2Del(Serializable... ids) {
 		for(Serializable id : ids){
 			E entity = this.findById(id);
-			entity.setDel(true);
+			entity.setIsDel(1);
 			this.update(entity);
 		}
+	}
+
+	@Override
+	public long countByQueryContainer(QueryContainer qc) {
+		String jpql = createJPQLByQueryContainer(qc);
+		jpql = "SELECT COUNT(id) " + jpql;
+		Query query = this.getEntityManager().createQuery(jpql);
+		Long totalRows = (Long) query.getSingleResult();
+		return totalRows;
 	}
 	
 	
